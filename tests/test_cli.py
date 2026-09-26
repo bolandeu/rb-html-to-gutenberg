@@ -281,6 +281,19 @@ def test_convert_json_writes_output_file(tmp_path: Path) -> None:
     assert "Привет" in payload["blocks"]
 
 
+def test_convert_reports_warnings_in_json_and_on_stderr(tmp_path: Path) -> None:
+    src = tmp_path / "in.html"
+    src.write_text('<div><p>A</p><iframe src="https://x.test"></iframe></div>', encoding="utf-8")
+    code, payload = invoke_json("convert", str(src))
+    assert code == 0
+    assert "<!-- wp:html -->" in payload["blocks"]
+    assert any("<iframe>" in w for w in payload["warnings"])
+
+    result = invoke("convert", str(src))
+    assert "<iframe>" in result.stderr
+    assert "kept as Custom HTML" not in result.stdout
+
+
 def test_convert_missing_input_is_invalid_arguments(tmp_path: Path) -> None:
     code, payload = invoke_json("convert", str(tmp_path / "nope.html"))
     assert code == 2

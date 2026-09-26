@@ -6,7 +6,7 @@ from pathlib import Path
 import tomli_w
 from packaging.version import Version
 
-from .converter import HtmlToGutenberg
+from .converter import Conversion, HtmlToGutenberg
 from .errors import CliTooOld, InvalidArguments, ProjectNotInitialized
 from .models import ProjectConfig
 from .version import installed_version
@@ -77,11 +77,11 @@ def init_project(project_root: Path, name: str) -> ProjectConfig:
     return config
 
 
-def convert_file(input_path: Path, output_path: Path | None = None) -> str:
+def convert_file(input_path: Path, output_path: Path | None = None) -> Conversion:
     """Convert an HTML file to Gutenberg block markup; also write it to `output_path` if given."""
     if not input_path.is_file():
         raise InvalidArguments(f"Input file '{input_path}' does not exist.")
-    markup = HtmlToGutenberg().convert(input_path.read_text(encoding="utf-8"))
+    conversion = HtmlToGutenberg().convert_report(input_path.read_text(encoding="utf-8"))
     if output_path is not None:
-        output_path.write_text(markup, encoding="utf-8")
-    return markup
+        output_path.write_text(conversion.blocks, encoding="utf-8")
+    return conversion

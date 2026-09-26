@@ -12,12 +12,19 @@ html-to-gutenberg convert page.html -o out.html  # write to a file
 html-to-gutenberg convert page.html --json       # {"ok": true, "blocks": "...", "output": null}
 ```
 
+Wrappers like `div`/`section` are unwrapped, tags without a native block
+are kept as Custom HTML (`wp:html`), `script`/`style`/`head` are dropped —
+each such case is a warning (stderr; `"warnings"` under `--json`), so
+nothing disappears silently. `html-to-gutenberg convert --help` lists the
+native blocks.
+
 **Python library:**
 
 ```python
 from html_to_gutenberg import HtmlToGutenberg
 
 blocks = HtmlToGutenberg().convert("<h2>Title</h2><p>Text</p>")
+report = HtmlToGutenberg().convert_report(html)  # report.blocks, report.warnings
 ```
 
 In another uv project, depend on it editable (edits here are picked up
