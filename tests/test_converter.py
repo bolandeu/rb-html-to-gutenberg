@@ -1,6 +1,6 @@
 """Тесты для HtmlToGutenberg."""
 
-from rb_html_gutenberg import HtmlToGutenberg
+from html_to_gutenberg import HtmlToGutenberg
 
 
 def test_paragraph():
