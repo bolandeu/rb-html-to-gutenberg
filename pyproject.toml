@@ -1,6 +1,6 @@
 [project]
 name = "html_to_gutenberg"
-version = "0.2.0"
+version = "0.3.0"
 description = "Конвертация HTML в WordPress Gutenberg блоки — Python-библиотека и CLI"
 readme = "README.md"
 authors = [{ name = "bolandeu" }]
