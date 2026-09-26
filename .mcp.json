@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "rb-html-gutenberg": {
+      "command": "uv",
+      "args": ["run", "--extra", "mcp", "python", "-m", "rb_html_gutenberg.mcp_server"]
+    }
+  }
+}

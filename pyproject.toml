@@ -1,0 +1,26 @@
+[project]
+name = "rb-html-gutenberg"
+version = "0.2.0"
+description = "Конвертация HTML в WordPress Gutenberg блоки — библиотека, CLI и MCP-сервер"
+requires-python = ">=3.11"
+
+dependencies = ["beautifulsoup4"]
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.0"]
+cli = ["click>=8.0"]
+all = ["rb-html-gutenberg[mcp,cli]"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+rb-html-gutenberg = "rb_html_gutenberg.cli:main"
+
+[project.entry-points."mcp.servers"]
+rb-html-gutenberg = "rb_html_gutenberg.mcp_server:serve"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rb_html_gutenberg"]
