@@ -3,10 +3,10 @@
 
  Get a single configuration value.
 
- Example: html-to-gutenberg config get provider.name
+ Example: html-to-gutenberg config get cli.min_version
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│ *    key      <str>  Dotted config key, e.g. provider.name [required]                            │
+│ *    key      <str>  Dotted config key, e.g. cli.min_version (see `config list`). [required]     │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --json           Emit machine-readable JSON output.                                              │

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -8,6 +9,7 @@ import typer
 from typer.testing import CliRunner
 
 from html_to_gutenberg import output
+from html_to_gutenberg._distribution import DIST_NAME
 from html_to_gutenberg.cli import app
 from html_to_gutenberg.core import services
 from html_to_gutenberg.core.errors import InvalidArguments
@@ -28,6 +30,15 @@ def invoke_json(*args: str, **kwargs) -> tuple[int, dict]:
 
 def init(tmp_path: Path, name: str = "demo") -> None:
     assert invoke("--project", str(tmp_path), "init", "--name", name).exit_code == 0
+
+
+# --- names ----------------------------------------------------------------------
+
+
+def test_distribution_name_matches_pyproject() -> None:
+    """_distribution.DIST_NAME is how importlib.metadata finds this package; it must equal [project] name."""
+    pyproject = tomllib.loads((Path(__file__).resolve().parents[1] / "pyproject.toml").read_text())
+    assert pyproject["project"]["name"] == DIST_NAME
 
 
 # --- help-on-no-args -------------------------------------------------------
@@ -282,7 +293,7 @@ def test_skill_install_writes_to_project_dir(tmp_path: Path, monkeypatch: pytest
     assert code == 0
     installed = tmp_path / ".claude" / "skills" / "html-to-gutenberg" / "SKILL.md"
     assert installed.is_file()
-    assert "html_to_gutenberg" in installed.read_text()
+    assert "name: html-to-gutenberg" in installed.read_text()
     assert payload["path"] == str(installed)
 
 

@@ -3,10 +3,10 @@
 
  Set a single, non-secret configuration value.
 
- Example: html-to-gutenberg config set provider.name github
+ Example: html-to-gutenberg config set cli.min_version 0.2.0
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│ *    key        <str>  Dotted config key, e.g. provider.name [required]                          │
+│ *    key        <str>  Dotted config key, e.g. cli.min_version (see `config list`). [required]   │
 │ *    value      <str>  New value (stored as a string). [required]                                │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮

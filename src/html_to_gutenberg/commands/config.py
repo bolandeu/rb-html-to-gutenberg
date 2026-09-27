@@ -34,13 +34,13 @@ def list_config(
 @output.guard
 def get_config(
     ctx: typer.Context,
-    key: str = typer.Argument(..., help="Dotted config key, e.g. provider.name"),
+    key: str = typer.Argument(..., help="Dotted config key, e.g. cli.min_version (see `config list`)."),
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
 ) -> None:
     """Get a single configuration value.
 
-    Example: {cli} config get provider.name
+    Example: {cli} config get cli.min_version
     """
     start = Path(ctx.obj.get("project") or Path.cwd())
     root = services.require_project_root(start)
@@ -58,14 +58,14 @@ def get_config(
 @output.guard
 def set_config(
     ctx: typer.Context,
-    key: str = typer.Argument(..., help="Dotted config key, e.g. provider.name"),
+    key: str = typer.Argument(..., help="Dotted config key, e.g. cli.min_version (see `config list`)."),
     value: str = typer.Argument(..., help="New value (stored as a string)."),
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
 ) -> None:
     """Set a single, non-secret configuration value.
 
-    Example: {cli} config set provider.name github
+    Example: {cli} config set cli.min_version 0.2.0
     """
     start = Path(ctx.obj.get("project") or Path.cwd())
     root = services.require_project_root(start)
