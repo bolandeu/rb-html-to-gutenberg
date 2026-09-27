@@ -10,6 +10,13 @@ one of added/changed/deprecated/removed/fixed/security), and
 
 <!-- towncrier release notes start -->
 
+## [0.4.0] - 2026-09-27
+
+### Changed
+
+- **Breaking:** the distribution is renamed `html_to_gutenberg` → `rb-html-to-gutenberg` (standard §10). The command (`html-to-gutenberg` / `html_to_gutenberg`) and the import package `html_to_gutenberg` are unchanged. Consumers: depend on `rb-html-to-gutenberg @ git+https://github.com/bolandeu/html-to-gutenberg.git@vX.Y.Z` (and rename the `[tool.uv.sources]` key); global tool: `uv tool uninstall html_to_gutenberg` before installing the new name; existing dev venv: `uv sync --reinstall-package rb-html-to-gutenberg`.
+
+
 ## [0.3.2] - 2026-09-27
 
 ### Changed
