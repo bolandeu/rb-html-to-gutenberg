@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import importlib
-import importlib.util
 from pathlib import Path
 
 import typer
@@ -10,7 +9,7 @@ from .. import output
 from ..core import services
 from ..core.errors import CliTooOld
 from ..core.models import ProjectConfig
-from ..core.version import DEV_VERSION, cli_name, installed_version
+from ..core.version import DEV_VERSION, cli_name, installed_version, module_exists
 
 _PACKAGE_NAME = __name__.split(".")[0]
 
@@ -18,7 +17,7 @@ _PACKAGE_NAME = __name__.split(".")[0]
 def _auth_checks(provider: str) -> list[dict]:
     # credentials/ is dropped at generation time when include_auth=false;
     # detecting it at runtime keeps this file free of template logic.
-    if importlib.util.find_spec(f"{_PACKAGE_NAME}.credentials") is None:
+    if not module_exists(f"{_PACKAGE_NAME}.credentials.manager"):
         return []
     credentials = importlib.import_module(f"{_PACKAGE_NAME}.credentials.manager")
 

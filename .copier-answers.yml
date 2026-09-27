@@ -1,11 +1,15 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: v1.2.4
+_commit: v1.2.7
 _src_path: gh:bolandeu/cli-generator
 author_name: bolandeu
 cli_name: html-to-gutenberg
 description: Конвертация HTML в WordPress Gutenberg блоки — Python-библиотека и CLI
-dist_name: html_to_gutenberg
+dist_name: rb-html-to-gutenberg
+dist_name_legacy: html_to_gutenberg
 include_auth: false
+include_ci: true
+include_providers: true
 package_name: html_to_gutenberg
+private_deps: false
 project_name: html-to-gutenberg
 repository_url: https://github.com/bolandeu/html-to-gutenberg

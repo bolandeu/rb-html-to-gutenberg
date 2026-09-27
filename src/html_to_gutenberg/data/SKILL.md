@@ -18,8 +18,7 @@ uv tool uninstall html_to_gutenberg 2>/dev/null   # old distribution name, if pr
 uv tool install "rb-html-to-gutenberg @ git+https://github.com/bolandeu/html-to-gutenberg.git@vX.Y.Z"
 ```
 
-Replace `vX.Y.Z` with the latest release tag. The distribution is
-`rb-html-to-gutenberg`; the command stays `html-to-gutenberg`.
+Replace `vX.Y.Z` with the latest release tag.
 
 Same command on macOS, Linux and Windows; `uv tool upgrade rb-html-to-gutenberg`
 updates it. Do not run from source unless asked to develop the CLI.
