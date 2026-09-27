@@ -1,6 +1,6 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
 _commit: v1.2.1
-_src_path: /Users/bolandau/.claude/skills/cli-generator
+_src_path: gh:bolandeu/cli-generator
 author_name: bolandeu
 cli_name: html-to-gutenberg
 description: Конвертация HTML в WordPress Gutenberg блоки — Python-библиотека и CLI
