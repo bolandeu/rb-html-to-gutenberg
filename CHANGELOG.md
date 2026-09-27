@@ -10,6 +10,13 @@ one of added/changed/deprecated/removed/fixed/security), and
 
 <!-- towncrier release notes start -->
 
+## [0.4.1] - 2026-09-27
+
+### Fixed
+
+- `--version` and the command name are also found for an install made under the old distribution name `html_to_gutenberg`; `httpx` is imported only by HTTP providers (cli-generator template v1.2.7).
+
+
 ## [0.4.0] - 2026-09-27
 
 ### Changed
