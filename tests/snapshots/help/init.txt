@@ -1,9 +1,9 @@
 
- Usage: html_to_gutenberg init [OPTIONS]
+ Usage: html-to-gutenberg init [OPTIONS]
 
- Initialize a project: creates .html_to_gutenberg/config.toml in the target directory.
+ Initialize a project: creates .html-to-gutenberg/config.toml in the target directory.
 
- Example: html_to_gutenberg init --name demo
+ Example: html-to-gutenberg init --name demo
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --name           <str>  Project name (defaults to directory name).                               │

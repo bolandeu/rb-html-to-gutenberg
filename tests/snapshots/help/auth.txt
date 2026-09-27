@@ -1,12 +1,13 @@
 
- Usage: html_to_gutenberg auth [OPTIONS] COMMAND [ARGS]...
+ Usage: html-to-gutenberg auth [OPTIONS] COMMAND [ARGS]...
 
- Report credentials (this tool needs none).
+ Credentials: report their health (and store them, if this CLI has any).
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --help          Show this message and exit.                                                      │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Commands ───────────────────────────────────────────────────────────────────────────────────────╮
-│ status  Report credentials health in the cross-tool shape; this tool has no credentials.         │
+│ status  Report every provider's credential: where it comes from and whether it works. Never      │
+│         prints values.                                                                           │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

@@ -1,9 +1,9 @@
 
- Usage: html_to_gutenberg status [OPTIONS]
+ Usage: html-to-gutenberg status [OPTIONS]
 
  Show the current project's status.
 
- Example: html_to_gutenberg status --json
+ Example: html-to-gutenberg status --json
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --json             Emit machine-readable JSON output.                                            │

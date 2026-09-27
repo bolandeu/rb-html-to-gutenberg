@@ -1,17 +1,17 @@
 ---
-name: html_to_gutenberg
-description: Conventions for driving the html_to_gutenberg CLI from an agent — install, JSON output, exit codes, credentials, destructive-command gating. Invoke when a task involves this project's operations.
+name: html-to-gutenberg
+description: Conventions for driving the html-to-gutenberg CLI from an agent — install, JSON output, exit codes, credentials, destructive-command gating. Invoke when a task involves this project's operations.
 ---
 
-# html_to_gutenberg
+# html-to-gutenberg
 
-Everything command-specific is in the CLI itself — run `html_to_gutenberg`
-with no arguments for version + command list, `html_to_gutenberg <command>
+Everything command-specific is in the CLI itself — run `html-to-gutenberg`
+with no arguments for version + command list, `html-to-gutenberg <command>
 --help` for details. This document only covers what `--help` can't tell
-you. If you can run the CLI but not read files, `html_to_gutenberg --ai`
+you. If you can run the CLI but not read files, `html-to-gutenberg --ai`
 prints this document.
 
-## Install (if `html_to_gutenberg --version` fails)
+## Install (if `html-to-gutenberg --version` fails)
 
 ```bash
 uv tool install "git+https://github.com/bolandeu/html-to-gutenberg.git"
@@ -36,7 +36,7 @@ uv tool install "git+ssh://git@github.com/bolandeu/html-to-gutenberg.git"
   stdout is data only, stderr is diagnostics.
 - **Project-aware.** Commands find the project by walking up from the
   current directory, or take `--project PATH`. Not initialized →
-  `html_to_gutenberg init --non-interactive`.
+  `html-to-gutenberg init --non-interactive`.
 - **`--non-interactive`** on anything that could prompt. It fails with a
   structured error instead of hanging.
 - **Credentials** live in the OS keychain or env vars
@@ -60,8 +60,8 @@ Read exit code → `error.code` → `error.action` (the concrete next command).
     0  ok
     1  general (UNEXPECTED = a bug: re-run with --verbose, report; ABORTED = user said no)
     2  invalid arguments
-    3  auth required          → html_to_gutenberg auth login
-    4  project not initialized → html_to_gutenberg init
+    3  auth required          → html-to-gutenberg auth login
+    4  project not initialized → html-to-gutenberg init
     5  provider error (network / external service; already retried) → retry later
     6  CLI too old for this project → uv tool upgrade html_to_gutenberg
 

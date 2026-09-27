@@ -4,12 +4,12 @@ exists for it — neither staged now nor already added on this branch.
 
 Every user-visible change needs a `changelog.d/+<slug>.<type>.md` fragment
 (`uv run towncrier create +<slug>.<type>.md -c "..."`); `scripts/release.py`
-assembles them into CHANGELOG.md. CI runs the strict version
-(`towncrier check --compare-with origin/main`) on pull requests; this is the
+assembles them into CHANGELOG.md. The strict check is the gate
+(`scripts/release.py --check`, "changelog fragment" step); this is the
 local reminder. It never fails the commit, it just prints to stderr.
 
-Installed via scripts/install_hooks.sh (`.git/hooks/` isn't versioned by
-git, so re-run that script after cloning or if hooks go missing).
+Runs from the versioned `.githooks/pre-commit` (`scripts/install_hooks.sh`
+points git at it once per clone).
 """
 
 from __future__ import annotations

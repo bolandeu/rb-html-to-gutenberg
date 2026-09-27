@@ -1,9 +1,9 @@
 
- Usage: html_to_gutenberg config get [OPTIONS] {key}
+ Usage: html-to-gutenberg config get [OPTIONS] {key}
 
  Get a single configuration value.
 
- Example: html_to_gutenberg config get provider.name
+ Example: html-to-gutenberg config get provider.name
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │ *    key      <str>  Dotted config key, e.g. provider.name [required]                            │

@@ -8,14 +8,14 @@ from typing import Any
 import httpx
 
 from ..core.errors import AuthRequired, ProviderError
-from ..core.version import DEV_VERSION, installed_version
+from ..core.version import DEV_VERSION, cli_name, installed_version
 from .base import Provider
 
-_PACKAGE_NAME = __name__.split(".")[0]
 log = logging.getLogger(__name__)
 
 # Responses worth retrying: the server said "not now", not "no".
 _RETRY_STATUSES = frozenset({429, 502, 503, 504})
+PROBE_TIMEOUT = 10.0  # auth status --check budget per provider (standard §8)
 
 
 class HttpProvider(Provider):
@@ -53,7 +53,7 @@ class HttpProvider(Provider):
 
     @functools.cached_property
     def client(self) -> httpx.Client:
-        user_agent = f"{_PACKAGE_NAME}/{installed_version() or DEV_VERSION}"
+        user_agent = f"{cli_name()}/{installed_version() or DEV_VERSION}"
         return httpx.Client(
             base_url=self.base_url,
             timeout=self.timeout,
@@ -93,6 +93,17 @@ class HttpProvider(Provider):
                     action="Retry later." if status in _RETRY_STATUSES else None,
                 )
             return response
+
+    def probe(self, path: str, method: str = "GET", **kwargs: Any) -> httpx.Response:
+        """One attempt, at most `PROBE_TIMEOUT` seconds, no retries — for `health_check()`.
+
+        Same error mapping as `request()` (401/403 -> AuthRequired, else ProviderError).
+        """
+        retries, self.retries = self.retries, 0
+        try:
+            return self.request(method, path, timeout=PROBE_TIMEOUT, **kwargs)
+        finally:
+            self.retries = retries
 
     def get_json(self, path: str, **params: Any) -> Any:
         response = self.request("GET", path, params=params or None)

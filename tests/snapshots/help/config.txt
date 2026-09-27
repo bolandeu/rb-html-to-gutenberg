@@ -1,5 +1,5 @@
 
- Usage: html_to_gutenberg config [OPTIONS] COMMAND [ARGS]...
+ Usage: html-to-gutenberg config [OPTIONS] COMMAND [ARGS]...
 
  Manage project configuration.
 

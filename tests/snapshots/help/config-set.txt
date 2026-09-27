@@ -1,9 +1,9 @@
 
- Usage: html_to_gutenberg config set [OPTIONS] {key} {value}
+ Usage: html-to-gutenberg config set [OPTIONS] {key} {value}
 
  Set a single, non-secret configuration value.
 
- Example: html_to_gutenberg config set provider.name github
+ Example: html-to-gutenberg config set provider.name github
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │ *    key        <str>  Dotted config key, e.g. provider.name [required]                          │

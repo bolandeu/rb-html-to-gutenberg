@@ -94,6 +94,10 @@ showcontent = true
 
 [tool.pytest.ini_options]
 addopts = "--cov --cov-report=term-missing:skip-covered"
+# tests/test_help.py keeps help snapshots at tests/snapshots/help/<command>.txt
+# (standard §7), not in syrupy's own `__snapshots__/<test file>/` layout, so
+# syrupy warns it "can not relate" each file to its test. It can — by name.
+filterwarnings = ["ignore:(?s).*Can not relate snapshot:UserWarning"]
 
 [tool.coverage.run]
 source = ["src"]

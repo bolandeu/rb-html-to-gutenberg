@@ -8,7 +8,7 @@ that).
 
 ```bash
 uv sync                          # also writes uv.lock — commit it
-uv run html_to_gutenberg --help
+uv run html-to-gutenberg --help
 uv run scripts/release.py --check   # the whole gate — run it before every commit
 ```
 
@@ -17,7 +17,7 @@ It is the authoritative gate (CI, if the repo keeps it, runs exactly this,
 and every release runs it too): `uv lock --check`, ruff check + format,
 ty, pytest (coverage floor, help contract + snapshots, `auth status`
 shape), a changelog fragment for any change since the last tag, and a
-wheel build installed into a throwaway venv where `html_to_gutenberg
+wheel build installed into a throwaway venv where `html-to-gutenberg
 --version` must match the built version. A failure names the step and
 shows its output — fix the cause, never skip the step.
 
@@ -47,7 +47,7 @@ changed with no changelog fragment on the branch.
   command. stdout is data only; errors, `--verbose` progress and `logging`
   go to stderr.
 - Command groups are created with `output.group("...")`, not
-  `typer.Typer(...)` — that's what makes `html_to_gutenberg <group>` with
+  `typer.Typer(...)` — that's what makes `html-to-gutenberg <group>` with
   no subcommand print help (exit 0) instead of a usage error.
 - Errors are `CliError` subclasses with a stable `code` and the fixed
   exit-code table (see `core/errors.py`). Don't raise bare exceptions as the
@@ -89,14 +89,14 @@ require it.
 
 ## After changing the command surface
 
-Agents discover commands from a bare `html_to_gutenberg` / `--help`,
+Agents discover commands from a bare `html-to-gutenberg` / `--help`,
 rendered from the command docstrings and `help=` strings — so the
 docstring *is* the API doc. **Changed a command's behaviour → update its
 docstring in the same commit**:
 
 - docstring = one-line summary, optional paragraph, and an
   `Example: {cli} <command> ...` line (`output.guard` turns `{cli}` into
-  `html_to_gutenberg`); every `typer.Option`/`Argument` has `help=`;
+  `html-to-gutenberg`); every `typer.Option`/`Argument` has `help=`;
 - then `uv run pytest --snapshot-update` and read the diff in
   `tests/snapshots/help/` — that diff is the user-visible change.
 

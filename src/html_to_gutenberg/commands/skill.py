@@ -6,20 +6,22 @@ from pathlib import Path
 import typer
 
 from .. import output
+from ..core.version import cli_name
 
 app = output.group("Install this CLI's agent skill for AI tools.")
 
 _PACKAGE_NAME = __name__.split(".")[0]
+_SKILL_NAME = cli_name()  # matches `name:` in the bundled SKILL.md
 
 # Where each AI tool looks for personal (user-level) and project-level skills.
 _TOOL_TARGETS = {
     "claude-code": {
-        "user": Path.home() / ".claude" / "skills" / _PACKAGE_NAME,
-        "project": Path(".claude") / "skills" / _PACKAGE_NAME,
+        "user": Path.home() / ".claude" / "skills" / _SKILL_NAME,
+        "project": Path(".claude") / "skills" / _SKILL_NAME,
     },
     "agents": {
-        "user": Path.home() / ".agents" / "skills" / _PACKAGE_NAME,
-        "project": Path(".agents") / "skills" / _PACKAGE_NAME,
+        "user": Path.home() / ".agents" / "skills" / _SKILL_NAME,
+        "project": Path(".agents") / "skills" / _SKILL_NAME,
     },
 }
 

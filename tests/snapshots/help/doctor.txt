@@ -1,12 +1,12 @@
 
- Usage: html_to_gutenberg doctor [OPTIONS]
+ Usage: html-to-gutenberg doctor [OPTIONS]
 
  Run diagnostic checks and report readiness.
 
  Always exits 0 — the report itself is the result; `healthy` says
  whether every check passed.
 
- Example: html_to_gutenberg doctor --json
+ Example: html-to-gutenberg doctor --json
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --json             Emit machine-readable JSON output.                                            │

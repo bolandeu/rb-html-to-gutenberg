@@ -1,5 +1,5 @@
 
- Usage: html_to_gutenberg skill [OPTIONS] COMMAND [ARGS]...
+ Usage: html-to-gutenberg skill [OPTIONS] COMMAND [ARGS]...
 
  Install this CLI's agent skill for AI tools.
 

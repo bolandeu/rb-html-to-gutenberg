@@ -33,10 +33,11 @@ class Provider:
 
     A concrete provider sets `name` and `credential_fields` (the field names
     it reads via `credentials.manager` under `credential_name`; `()` if it
-    needs none), `required` and `per_target` where they differ, and must
-    implement `health_check()` — `tests/test_providers.py` fails for any
-    provider that doesn't. It must be constructible with no arguments:
-    `auth status --check` instantiates every provider found in this package.
+    needs none), `required`, `per_target` and `legacy_env` where they
+    differ, and must implement `health_check()` — `tests/test_providers.py`
+    fails for any provider that doesn't. `auth status --check` gets an
+    instance via `for_health_check()`: `cls()` by default; a provider whose
+    constructor needs arguments overrides it (building them from config/env).
 
     Classes that are only bases for others set `abstract = True` in their own
     body; everything else defined under `providers/` is discovered by
@@ -54,7 +55,20 @@ class Provider:
     # `auth login --provider deploy:example.com`. `auth status` reports each
     # stored target separately and sets `target` before `health_check()`.
     per_target: ClassVar[bool] = False
+    # Older env var names still honoured, field -> name, checked after
+    # <PACKAGE>_<PROVIDER>_<FIELD>. In a subclass keep the annotation (ruff RUF012):
+    #     legacy_env: ClassVar[dict[str, str]] = {"api_key": "XMLRIVER_TOKEN"}
+    # and read credentials with
+    # `manager.get_credential(self.credential_name, env_fields=..., legacy_env=self.legacy_env)`.
+    legacy_env: ClassVar[dict[str, str]] = {}
     target: str | None = None
+
+    @classmethod
+    def for_health_check(cls, target: str | None = None) -> Provider:
+        """An instance for `auth status --check` (for `target`, if per-target)."""
+        provider = cls()
+        provider.target = target
+        return provider
 
     @property
     def credential_name(self) -> str:
@@ -68,7 +82,9 @@ class Provider:
         authenticated read is) then `return Health()`; add `expires_at` for
         anything with a lifetime and `quota` if the API reports it. Just let
         `AuthRequired` / `ProviderError` propagate — `auth status` maps them
-        to `invalid` / `unreachable`. Runs with a 10 s timeout and no retries.
+        to `invalid` / `unreachable`. It must finish within 10 s and not retry:
+        `auth status` enforces the 10 s wall clock but can't make a slow check
+        fast. `HttpProvider.probe()` makes exactly one such request.
         """
         raise NotImplementedError(f"{type(self).__name__} must implement health_check()")
 

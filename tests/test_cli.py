@@ -10,6 +10,7 @@ from typer.testing import CliRunner
 from html_to_gutenberg import output
 from html_to_gutenberg.cli import app
 from html_to_gutenberg.core import services
+from html_to_gutenberg.core.errors import InvalidArguments
 
 runner = CliRunner()
 
@@ -38,7 +39,7 @@ def test_bare_invocation_shows_help_and_exits_zero() -> None:
     assert "Usage:" in result.output
 
 
-@pytest.mark.parametrize("group", ["config", "skill"])
+@pytest.mark.parametrize("group", ["config", "skill", "auth"])
 def test_bare_group_shows_help_and_exits_zero(group: str) -> None:
     result = invoke(group)
     assert result.exit_code == 0
@@ -190,6 +191,27 @@ def _app_with(command):
     return test_app
 
 
+def test_report_with_a_problem_keeps_the_payload() -> None:
+    """output.emit_report: data plus ok=false + error, exit code from the problem (auth status uses it)."""
+
+    def report(ctx: typer.Context) -> None:
+        render = lambda d: output.human.echo(f"items: {d['items']}")  # noqa: E731
+        output.emit_report(ctx, {"items": [1]}, render, InvalidArguments("bad"))
+
+    result = runner.invoke(_app_with(report), ["--json", "cmd"])
+    payload = json.loads(result.stdout)
+    assert (result.exit_code, payload["ok"], payload["items"], payload["error"]["code"]) == (
+        2,
+        False,
+        [1],
+        "INVALID_ARGUMENTS",
+    )
+    result = runner.invoke(_app_with(report), ["cmd"])
+    assert result.exit_code == 2
+    assert "items: [1]" in result.stdout
+    assert "bad" in result.stderr
+
+
 def test_unexpected_exception_still_yields_json_envelope() -> None:
     def boom(ctx: typer.Context) -> None:
         raise RuntimeError("kaboom")
@@ -258,7 +280,7 @@ def test_skill_install_writes_to_project_dir(tmp_path: Path, monkeypatch: pytest
     monkeypatch.chdir(tmp_path)
     code, payload = invoke_json("skill", "install", "--tool", "claude-code", "--project")
     assert code == 0
-    installed = tmp_path / ".claude" / "skills" / "html_to_gutenberg" / "SKILL.md"
+    installed = tmp_path / ".claude" / "skills" / "html-to-gutenberg" / "SKILL.md"
     assert installed.is_file()
     assert "html_to_gutenberg" in installed.read_text()
     assert payload["path"] == str(installed)
@@ -301,3 +323,19 @@ def test_convert_missing_input_is_invalid_arguments(tmp_path: Path) -> None:
     code, payload = invoke_json("convert", str(tmp_path / "nope.html"))
     assert code == 2
     assert payload["error"]["code"] == "INVALID_ARGUMENTS"
+
+
+# --- auth status without credentials (standard §8: every CLI has it) ----------
+
+
+def test_auth_status_without_credentials_is_empty_and_healthy() -> None:
+    for args in (("auth", "status"), ("auth", "status", "--check")):
+        code, payload = invoke_json(*args)
+        assert code == 0
+        assert list(payload) == ["ok", "tool", "version", "checked_at", "credentials"]
+        assert payload["credentials"] == []
+        assert payload["checked_at"].endswith("Z")
+    code, payload = invoke_json("auth", "status", "--provider", "x")
+    assert (code, payload["error"]["code"]) == (2, "INVALID_ARGUMENTS")
+    assert invoke("auth", "login").exit_code == 2  # no such command without credentials
+    assert "stores no credentials" in invoke("auth", "status").stdout

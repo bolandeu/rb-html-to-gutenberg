@@ -33,5 +33,5 @@ jobs:
 
       # Everything: lock, lint, format, types, tests (incl. help snapshots and
       # the auth status shape), changelog fragment, wheel build + install +
-      # `html_to_gutenberg --version` / `--help`, osv-scanner over uv.lock.
+      # `html-to-gutenberg --version` / `--help`, osv-scanner over uv.lock.
       - run: uv run scripts/release.py --check

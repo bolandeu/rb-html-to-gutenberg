@@ -1,9 +1,9 @@
 
- Usage: html_to_gutenberg config list [OPTIONS]
+ Usage: html-to-gutenberg config list [OPTIONS]
 
  List all configuration values.
 
- Example: html_to_gutenberg config list --json
+ Example: html-to-gutenberg config list --json
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --json           Emit machine-readable JSON output.                                              │

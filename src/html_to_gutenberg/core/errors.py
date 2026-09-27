@@ -1,8 +1,11 @@
 from __future__ import annotations
 
-# Derived from this package's own name so error messages can name the real
-# command without this module needing template substitution.
-_CLI = __name__.split(".")[0]
+from .version import cli_name
+
+# The real command (may differ from the package name) for `action` hints;
+# `uv tool upgrade` takes the distribution name, which is the package's.
+_CLI = cli_name()
+_DIST = __name__.split(".")[0]
 
 
 class CliError(Exception):
@@ -121,7 +124,7 @@ class CliTooOld(CliError):
         super().__init__(
             "CLI_TOO_OLD",
             f"This project requires {_CLI} >= {required}, but {installed} is installed.",
-            action=f"Run 'uv tool upgrade {_CLI}' (or lower cli.min_version in the project's config.toml).",
+            action=f"Run 'uv tool upgrade {_DIST}' (or lower cli.min_version in the project's config.toml).",
             exit_code=6,
         )
 

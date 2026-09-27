@@ -7,7 +7,7 @@ import typer
 from . import output
 from .commands import auth, convert, doctor, init, skill, status
 from .commands import config as config_cmd
-from .core.version import DEV_VERSION, installed_version, package_summary
+from .core.version import DEV_VERSION, cli_name, installed_version, package_summary
 
 _PACKAGE_NAME = __name__.split(".")[0]
 
@@ -16,12 +16,11 @@ _PACKAGE_NAME = __name__.split(".")[0]
 # its docstring. No `no_args_is_help` (that exits 2) — main_options() below
 # prints this and exits 0. Shell completion stays enabled.
 app = typer.Typer(
-    help=f"{_PACKAGE_NAME} {installed_version() or DEV_VERSION} — {package_summary() or 'project-aware automation CLI'}"
+    help=f"{cli_name()} {installed_version() or DEV_VERSION} — {package_summary() or 'project-aware automation CLI'}"
 )
 
-app.add_typer(auth.app, name="auth")
 app.add_typer(config_cmd.app, name="config")
-
+app.add_typer(auth.app, name="auth")  # `auth status` in every CLI; login/logout only with credentials
 app.add_typer(skill.app, name="skill")
 
 app.command(name="init")(init.init)

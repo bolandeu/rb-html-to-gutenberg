@@ -6,7 +6,7 @@ tested like an API:
 
 - contract tests: every command (walked from the app's registry, so a new
   command is covered automatically) has a docstring with an
-  `Example: html_to_gutenberg <command> ...` line, every parameter has non-empty help,
+  `Example: html-to-gutenberg <command> ...` line, every parameter has non-empty help,
   every group has a description;
 - snapshots: `<command> --help` is stored in tests/snapshots/help/<command>.txt
   (syrupy). A changed help text fails until the snapshot is refreshed with
@@ -30,7 +30,7 @@ from typer.testing import CliRunner
 
 from html_to_gutenberg.cli import app
 
-CLI = "html_to_gutenberg"
+CLI = "html-to-gutenberg"
 SNAPSHOT_DIR = Path(__file__).parent / "snapshots" / "help"
 # Fixed width and no colour so the rendering doesn't depend on the terminal running the tests.
 HELP_ENV = {"COLUMNS": "100", "NO_COLOR": "1", "TERM": "dumb"}

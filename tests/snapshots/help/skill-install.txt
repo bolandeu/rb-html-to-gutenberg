@@ -1,9 +1,9 @@
 
- Usage: html_to_gutenberg skill install [OPTIONS]
+ Usage: html-to-gutenberg skill install [OPTIONS]
 
  Copy this CLI's bundled SKILL.md into an AI tool's skill directory.
 
- Example: html_to_gutenberg skill install --tool claude-code
+ Example: html-to-gutenberg skill install --tool claude-code
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --tool           <str>  Target AI tool: one of claude-code, agents. [default: claude-code]       │

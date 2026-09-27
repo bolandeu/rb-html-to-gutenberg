@@ -8,6 +8,7 @@ from collections.abc import Callable
 import typer
 
 from ..core.errors import Aborted, CliError, InvalidArguments
+from ..core.version import cli_name
 from . import human
 from . import json as json_output
 
@@ -31,7 +32,7 @@ __all__ = [
     "vecho",
 ]
 
-_CLI_NAME = __name__.split(".")[0]
+_CLI_NAME = cli_name()
 
 # Reusable local options: attach to any command so `<cli> <command> --json`
 # works, on top of the global `<cli> --json <command>` handled by guard().

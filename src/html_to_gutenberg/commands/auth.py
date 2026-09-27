@@ -1,24 +1,23 @@
-"""`auth status` — the cross-tool credentials report (tools/docs/standard-release.md §8).
-
-This CLI talks to no external service, so it has no credentials: the report
-always carries an empty `credentials` list and exits 0. The command exists so
-`tools-watch` can poll every tool the same way; its shape is pinned by
-`tests/test_auth.py`.
-"""
-
 from __future__ import annotations
 
+import importlib
+import importlib.util
 from datetime import UTC, datetime
 
 import typer
 
 from .. import output
 from ..core.errors import InvalidArguments
-from ..core.version import DEV_VERSION, installed_version
+from ..core.version import DEV_VERSION, cli_name, installed_version
 
-_CLI = __name__.split(".")[0]
+# `auth status` exists in every CLI (tools/docs/standard-release.md §8); a CLI
+# generated without credentials (no credentials/ package, no commands/login.py)
+# reports an empty `credentials` list and exits 0. Detected at runtime so this
+# file needs no template logic — same approach as doctor.py.
+_PACKAGE_NAME = __name__.split(".")[0]
+_HAS_CREDENTIALS = importlib.util.find_spec(f"{_PACKAGE_NAME}.credentials") is not None
 
-app = output.group("Report credentials (this tool needs none).")
+app = output.group("Credentials: report their health (and store them, if this CLI has any).")
 
 
 @app.command("status")
@@ -26,28 +25,40 @@ app = output.group("Report credentials (this tool needs none).")
 def auth_status(
     ctx: typer.Context,
     check: bool = typer.Option(
-        False, "--check", help="Also verify each credential with a live call (no-op: this tool has none)."
+        False, "--check", help="Also make one cheap read-only call per provider (10 s timeout) to prove each works."
     ),
     provider: str | None = typer.Option(
-        None, "--provider", help="Report only this provider; any name is unknown here (exit 2)."
+        None, "--provider", help="Report only this provider, or one target as <kind>:<target> (default: all)."
     ),
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
 ) -> None:
-    """Report credentials health in the cross-tool shape; this tool has no credentials.
+    """Report every provider's credential: where it comes from and whether it works. Never prints values.
 
-    Always exits 0 with an empty `credentials` list; --provider NAME exits 2
-    (unknown provider). The --json shape is a cross-tool contract: `tool`,
-    `version`, `checked_at`, `credentials[]`.
+    Without --check only presence is reported (status `unchecked` or `missing`).
+    Exits 0 when every required provider is ok/unchecked (an optional one may be
+    missing), 3 when any required provider has a problem or any credential is
+    invalid/expired, 2 on a usage error. A per-target provider (one credential per
+    site/host/account) gets one entry per stored target, named `<kind>:<target>`. The --json shape is a cross-tool contract:
+    `tool`, `version`, `checked_at`, `credentials[]` with `provider`, `required`,
+    `fields`, `source`, `source_ref`, `status`, `expires_at`, `quota`, `message`.
 
     Example: {cli} auth status --check --json
     """
-    if provider is not None:
-        raise InvalidArguments(f"Unknown provider '{provider}' (known: none).")
-    payload = {
-        "tool": _CLI,
-        "version": installed_version() or DEV_VERSION,
-        "checked_at": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
-        "credentials": [],
-    }
-    output.emit_success(ctx, payload, lambda _: output.human.echo("No providers with credentials."))
+    tool, version = cli_name(), installed_version() or DEV_VERSION
+    if not _HAS_CREDENTIALS:
+        if provider is not None:
+            raise InvalidArguments(f"Unknown provider '{provider}' ({tool} stores no credentials).")
+        checked_at = datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+        payload = {"tool": tool, "version": version, "checked_at": checked_at, "credentials": []}
+        output.emit_report(ctx, payload, lambda _: output.human.echo(f"{tool} stores no credentials."), None)
+        return
+    health = importlib.import_module(f"{_PACKAGE_NAME}.credentials.health")
+    payload, problem = health.status(tool, version, check=check, only=provider)
+    output.emit_report(ctx, payload, health.render, problem)
+
+
+if importlib.util.find_spec(f"{_PACKAGE_NAME}.commands.login") is not None:
+    _login = importlib.import_module(f"{_PACKAGE_NAME}.commands.login")
+    app.command("login")(_login.login)
+    app.command("logout")(_login.logout)

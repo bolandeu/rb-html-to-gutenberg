@@ -1,5 +1,5 @@
 
- Usage: html_to_gutenberg convert [OPTIONS] {input_path}
+ Usage: html-to-gutenberg convert [OPTIONS] {input_path}
 
  Convert an HTML file to WordPress Gutenberg block markup.
 
@@ -14,7 +14,7 @@
  file). Needs no project. --json returns {"blocks": <markup>,
  "output": <path or null>, "warnings": [...]}.
 
- Example: html_to_gutenberg convert page.html -o page.blocks.html
+ Example: html-to-gutenberg convert page.html -o page.blocks.html
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │ *    input_path      <path>  HTML file to convert. [required]                                    │

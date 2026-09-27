@@ -10,7 +10,7 @@ from .. import output
 from ..core import services
 from ..core.errors import CliTooOld
 from ..core.models import ProjectConfig
-from ..core.version import DEV_VERSION, installed_version
+from ..core.version import DEV_VERSION, cli_name, installed_version
 
 _PACKAGE_NAME = __name__.split(".")[0]
 
@@ -36,7 +36,7 @@ def _auth_checks(provider: str) -> list[dict]:
             "name": "credential",
             "ok": available,
             "detail": f"provider '{provider}'"
-            + ("" if available else f" — run '{_PACKAGE_NAME} auth login --provider {provider}'"),
+            + ("" if available else f" — run '{cli_name()} auth login --provider {provider}'"),
         }
     )
     return checks
