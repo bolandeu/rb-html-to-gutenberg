@@ -10,6 +10,17 @@ one of added/changed/deprecated/removed/fixed/security), and
 
 <!-- towncrier release notes start -->
 
+## [0.3.1] - 2026-09-27
+
+### Added
+
+- `auth status [--check] [--provider NAME] --json`: the cross-tool credentials report; this tool has no credentials, so the list is empty and it exits 0.
+
+### Changed
+
+- Adopted the tools release standard (template v1.2.0): version comes from the git tag, changelog from changelog.d/ fragments, one `scripts/release.py` gate; `--help` of every command is covered by a contract test and snapshots.
+
+
 ## [0.3.0] - 2026-09-26
 
 ### Added
