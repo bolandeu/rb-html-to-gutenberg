@@ -4,4 +4,4 @@
 # summary and console script by it; an editable install (`uv sync`) can't be
 # mapped from package to distribution at runtime, so it is written down here.
 # tests/test_cli.py fails if it drifts from pyproject.toml.
-DIST_NAME = "html_to_gutenberg"
+DIST_NAME = "rb-html-to-gutenberg"

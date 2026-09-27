@@ -21,6 +21,12 @@ wheel build installed into a throwaway venv where `html-to-gutenberg
 --version` must match the built version. A failure names the step and
 shows its output — fix the cause, never skip the step.
 
+**Renamed distribution (v0.4.0, standard §10):** `[project] name` is
+`rb-html-to-gutenberg` (import package and command unchanged). In a dev venv
+created before the rename, `uv sync` removes the old dist together with the
+shared console script, so `uv run html-to-gutenberg` silently runs another
+copy from PATH. Fix once: `uv sync --reinstall-package rb-html-to-gutenberg`.
+
 Run `scripts/install_hooks.sh` once per clone: it points git at the
 versioned hooks in `.githooks/` (Claude Code sessions do this themselves
 via `.claude/settings.json`). The pre-commit hook **blocks** a commit where

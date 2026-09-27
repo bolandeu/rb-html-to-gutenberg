@@ -1,5 +1,5 @@
 [project]
-name = "html_to_gutenberg"
+name = "rb-html-to-gutenberg"
 # Version comes from the git tag vX.Y.Z (uv-dynamic-versioning) — never add `version =`.
 dynamic = ["version"]
 description = "Конвертация HTML в WordPress Gutenberg блоки — Python-библиотека и CLI"

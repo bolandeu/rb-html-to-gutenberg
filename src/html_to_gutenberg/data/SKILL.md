@@ -14,10 +14,14 @@ prints this document.
 ## Install (if `html-to-gutenberg --version` fails)
 
 ```bash
-uv tool install "git+https://github.com/bolandeu/html-to-gutenberg.git"
+uv tool uninstall html_to_gutenberg 2>/dev/null   # old distribution name, if present
+uv tool install "rb-html-to-gutenberg @ git+https://github.com/bolandeu/html-to-gutenberg.git@vX.Y.Z"
 ```
 
-Same command on macOS, Linux and Windows; `uv tool upgrade html_to_gutenberg`
+Replace `vX.Y.Z` with the latest release tag. The distribution is
+`rb-html-to-gutenberg`; the command stays `html-to-gutenberg`.
+
+Same command on macOS, Linux and Windows; `uv tool upgrade rb-html-to-gutenberg`
 updates it. Do not run from source unless asked to develop the CLI.
 
 The repository may be private. On an auth error (`Authentication failed`,
@@ -27,7 +31,7 @@ ask the user to run `gh auth login`. With SSH keys configured, this works
 without any of that:
 
 ```bash
-uv tool install "git+ssh://git@github.com/bolandeu/html-to-gutenberg.git"
+uv tool install "rb-html-to-gutenberg @ git+ssh://git@github.com/bolandeu/html-to-gutenberg.git@vX.Y.Z"
 ```
 
 ## Conventions
@@ -63,6 +67,6 @@ Read exit code → `error.code` → `error.action` (the concrete next command).
     3  auth required          → html-to-gutenberg auth login
     4  project not initialized → html-to-gutenberg init
     5  provider error (network / external service; already retried) → retry later
-    6  CLI too old for this project → uv tool upgrade html_to_gutenberg
+    6  CLI too old for this project → uv tool upgrade rb-html-to-gutenberg
 
 Only exit 5 is worth an automatic retry.

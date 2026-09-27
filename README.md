@@ -32,8 +32,12 @@ immediately) or from GitHub:
 
 ```bash
 uv add --editable /Users/bolandau/Projects/tools/html-to-gutenberg
-uv add "git+https://github.com/bolandeu/html-to-gutenberg.git"
+uv add "rb-html-to-gutenberg @ git+https://github.com/bolandeu/html-to-gutenberg.git@vX.Y.Z"
 ```
+
+The distribution is `rb-html-to-gutenberg` (standard §10); the import package
+(`html_to_gutenberg`) and the command (`html-to-gutenberg`) keep their names.
+Pin a tag (`@vX.Y.Z`) rather than a branch.
 
 ## Development
 
@@ -41,6 +45,7 @@ uv add "git+https://github.com/bolandeu/html-to-gutenberg.git"
 uv sync
 uv run html_to_gutenberg --help
 uv run scripts/release.py --check   # the full gate (what releases and CI run)
+uv sync --reinstall-package rb-html-to-gutenberg  # once, if this venv predates the rename (§10)
 scripts/install_hooks.sh  # once per clone: git uses the versioned hooks in .githooks/
 uv run pytest --snapshot-update  # after changing a command's help; review tests/snapshots/help/
 ```
@@ -79,11 +84,12 @@ uv tool install --editable .
 PyPI publish needed:**
 
 ```bash
-uv tool install "git+https://github.com/bolandeu/html-to-gutenberg.git"
+uv tool uninstall html_to_gutenberg   # once: the old distribution name (before v0.4.0)
+uv tool install "rb-html-to-gutenberg @ git+https://github.com/bolandeu/html-to-gutenberg.git@vX.Y.Z"
 ```
 
-Pin a release by appending `@vX.Y.Z` (a tag cut by `scripts/release.py`)
-to the URL. This is also how an AI agent
+`vX.Y.Z` is a release tag cut by `scripts/release.py`. Uninstall the old
+`html_to_gutenberg` tool first, otherwise two tools fight over the same command. This is also how an AI agent
 bootstraps this CLI on a fresh machine/sandbox where it isn't installed
 yet — see `src/html_to_gutenberg/data/SKILL.md`.
 
@@ -99,13 +105,13 @@ gh auth setup-git      # only needed if gh was logged in with --with-token / in 
 or use the SSH form instead of HTTPS:
 
 ```bash
-uv tool install "git+ssh://git@github.com/bolandeu/html-to-gutenberg.git"
+uv tool install "rb-html-to-gutenberg @ git+ssh://git@github.com/bolandeu/html-to-gutenberg.git@vX.Y.Z"
 ```
 
 **Update** an installed copy to the latest commit:
 
 ```bash
-uv tool upgrade html_to_gutenberg
+uv tool upgrade rb-html-to-gutenberg
 ```
 
 After install, the command `html_to_gutenberg` is available globally, on
@@ -135,7 +141,7 @@ stderr in human mode, so stdout is always safe to pipe.
 
 A project can require a minimum CLI version in its `.html_to_gutenberg/config.toml`
 (`[cli] min_version = "..."`); an older install refuses with exit 6 and
-`uv tool upgrade html_to_gutenberg` fixes it.
+`uv tool upgrade rb-html-to-gutenberg` fixes it.
 
 See `src/html_to_gutenberg/data/SKILL.md` for the agent-facing usage guide
 bundled with this package — install it into an AI tool with
