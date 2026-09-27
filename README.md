@@ -40,24 +40,31 @@ uv add "git+https://github.com/bolandeu/html-to-gutenberg.git"
 ```bash
 uv sync
 uv run html_to_gutenberg --help
-uv run ruff check . && uv run ruff format --check . && uv run ty check && uv run pytest
-scripts/install_hooks.sh  # installs a pre-commit hook warning on stale --help docstrings
+uv run scripts/release.py --check   # the full gate (what releases and CI run)
+scripts/install_hooks.sh  # once per clone: git uses the versioned hooks in .githooks/
+uv run pytest --snapshot-update  # after changing a command's help; review tests/snapshots/help/
 ```
 
 `pytest` fails below the coverage floor in `pyproject.toml`; `ruff` includes
-the security (`S`) rules; CI additionally scans `uv.lock` for known
-vulnerabilities (OSV-Scanner) — the same as `osv-scanner --lockfile=uv.lock`
-locally.
+the security (`S`) rules; the gate also scans `uv.lock` for known
+vulnerabilities when `osv-scanner` is installed (`brew install osv-scanner`),
+and says it skipped the scan otherwise. CI is optional and only repeats
+`release.py --check`.
 
 ## Release
 
+The version is the git tag (`vX.Y.Z`) — `pyproject.toml` has no `version =`.
+Each change adds a changelog fragment instead of editing `CHANGELOG.md`:
+
 ```bash
-uv run scripts/release.py patch   # or minor / major
+uv run towncrier create +<slug>.<type>.md -c "What changed, for a human reader."
+uv run scripts/release.py patch   # or minor / major (SemVer; at 0.x: patch = fix/feature, minor = breaking)
+git push --follow-tags
 ```
 
-Bumps the version in `pyproject.toml`, dates the `## [Unreleased]` section
-of `CHANGELOG.md`, commits, tags `v<version>` and pushes. Keep the changelog
-current as you work; the release script only stamps it.
+`release.py` refuses off `main`, on a dirty tree or behind the remote, runs
+the full gate (the same as `--check`; any failing step aborts the release), assembles `CHANGELOG.md` from `changelog.d/`, commits
+`Release vX.Y.Z` and tags it; pushing is left to you.
 
 ## Install
 
@@ -75,8 +82,8 @@ PyPI publish needed:**
 uv tool install "git+https://github.com/bolandeu/html-to-gutenberg.git"
 ```
 
-Pin a release by appending `@v<version>` (a tag cut by `scripts/release.py`)
-to the URL, or a branch/commit the same way. This is also how an AI agent
+Pin a release by appending `@vX.Y.Z` (a tag cut by `scripts/release.py`)
+to the URL. This is also how an AI agent
 bootstraps this CLI on a fresh machine/sandbox where it isn't installed
 yet — see `src/html_to_gutenberg/data/SKILL.md`.
 

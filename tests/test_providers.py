@@ -4,7 +4,7 @@ import httpx
 import pytest
 
 from html_to_gutenberg.core.errors import AuthRequired, ProviderError
-from html_to_gutenberg.providers import HttpProvider
+from html_to_gutenberg.providers import Health, HttpProvider, Provider, all_providers
 
 
 class _Provider(HttpProvider):
@@ -82,3 +82,40 @@ def test_non_json_body_is_a_provider_error() -> None:
     provider = _Provider(lambda request: httpx.Response(200, text="<html>"))
     with pytest.raises(ProviderError):
         provider.get_json("/things")
+
+
+# --- provider contract: every provider can prove its credential works -------------
+
+
+@pytest.mark.parametrize("provider_cls", all_providers(), ids=lambda cls: cls.name)
+def test_every_provider_implements_health_check(provider_cls: type[Provider]) -> None:
+    assert provider_cls.health_check is not Provider.health_check, (
+        f"{provider_cls.__name__} must implement health_check() — `auth status --check` calls it"
+    )
+    provider_cls()  # auth status --check instantiates providers without arguments
+
+
+def test_provider_names_are_unique() -> None:
+    names = [cls.name for cls in all_providers()]
+    assert len(names) == len(set(names)), f"duplicate provider names: {names}"
+
+
+def test_all_providers_discovers_package_classes_only() -> None:
+    class Found(HttpProvider):
+        __module__ = "html_to_gutenberg.providers.fake"
+        name = "found"
+
+        def health_check(self) -> Health:
+            return Health()
+
+    class Base(HttpProvider):
+        __module__ = "html_to_gutenberg.providers.fake"
+        abstract = True
+
+    class Elsewhere(HttpProvider):  # defined outside providers/: not discovered
+        name = "elsewhere"
+
+    discovered = all_providers()
+    assert Found in discovered
+    assert Base not in discovered
+    assert Elsewhere not in discovered

@@ -1,0 +1,28 @@
+
+ Usage: html_to_gutenberg convert [OPTIONS] {input_path}
+
+ Convert an HTML file to WordPress Gutenberg block markup.
+
+ Native blocks: p, h1-h6, ul/ol, table, blockquote, img, figure (img or
+ table + figcaption), hr, pre/code, details, video, audio; loose text and
+ inline tags become paragraphs. Wrappers (div, section, article, body,
+ ...) are unwrapped. Anything else is kept as a Custom HTML (wp:html)
+ block; script/style/head are dropped. Both cases are reported as
+ warnings (stderr; "warnings" under --json) — nothing is lost silently.
+
+ Prints the markup to stdout, or writes it to --output (overwriting that
+ file). Needs no project. --json returns {"blocks": <markup>,
+ "output": <path or null>, "warnings": [...]}.
+
+ Example: html_to_gutenberg convert page.html -o page.blocks.html
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│ *    input_path      <path>  HTML file to convert. [required]                                    │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --output  -o      <path>  Write the result to this file instead of stdout.                       │
+│ --json                    Emit machine-readable JSON output.                                     │
+│ --quiet                   Suppress non-essential output.                                         │
+│ --help                    Show this message and exit.                                            │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

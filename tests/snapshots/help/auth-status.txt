@@ -1,0 +1,20 @@
+
+ Usage: html_to_gutenberg auth status [OPTIONS]
+
+ Report credentials health in the cross-tool shape; this tool has no credentials.
+
+ Always exits 0 with an empty `credentials` list; --provider NAME exits 2
+ (unknown provider). The --json shape is a cross-tool contract: `tool`,
+ `version`, `checked_at`, `credentials[]`.
+
+ Example: html_to_gutenberg auth status --check --json
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --check                  Also verify each credential with a live call (no-op: this tool has      │
+│                          none).                                                                  │
+│ --provider        <str>  Report only this provider; any name is unknown here (exit 2).           │
+│ --json                   Emit machine-readable JSON output.                                      │
+│ --quiet                  Suppress non-essential output.                                          │
+│ --help                   Show this message and exit.                                             │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

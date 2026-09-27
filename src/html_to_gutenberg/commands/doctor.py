@@ -53,6 +53,8 @@ def doctor(
 
     Always exits 0 — the report itself is the result; `healthy` says
     whether every check passed.
+
+    Example: {cli} doctor --json
     """
     checks: list[dict] = [{"name": "python", "ok": True}]
     checks.append({"name": "cli_version", "ok": True, "detail": installed_version() or DEV_VERSION})

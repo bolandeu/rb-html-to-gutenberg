@@ -1,0 +1,1 @@
+Adopted the tools release standard (template v1.2.0): version comes from the git tag, changelog from changelog.d/ fragments, one `scripts/release.py` gate; `--help` of every command is covered by a contract test and snapshots.

@@ -17,7 +17,10 @@ def init(
     quiet: bool = output.QuietOption,
     verbose: bool = output.VerboseOption,
 ) -> None:
-    """Initialize a project: creates .<cli>/config.toml in the target directory."""
+    """Initialize a project: creates .{cli}/config.toml in the target directory.
+
+    Example: {cli} init --name demo
+    """
     target = Path(ctx.obj.get("project") or Path.cwd()).resolve()
 
     if not force and services.find_project_root(target) == target:

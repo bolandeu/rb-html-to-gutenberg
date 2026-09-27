@@ -1,0 +1,12 @@
+
+ Usage: html_to_gutenberg auth [OPTIONS] COMMAND [ARGS]...
+
+ Report credentials (this tool needs none).
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --help          Show this message and exit.                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ───────────────────────────────────────────────────────────────────────────────────────╮
+│ status  Report credentials health in the cross-tool shape; this tool has no credentials.         │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

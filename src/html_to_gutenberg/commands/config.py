@@ -19,7 +19,10 @@ def list_config(
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
 ) -> None:
-    """List all configuration values."""
+    """List all configuration values.
+
+    Example: {cli} config list --json
+    """
     start = Path(ctx.obj.get("project") or Path.cwd())
     root = services.require_project_root(start)
     config = services.load_config(root)
@@ -35,7 +38,10 @@ def get_config(
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
 ) -> None:
-    """Get a single configuration value."""
+    """Get a single configuration value.
+
+    Example: {cli} config get provider.name
+    """
     start = Path(ctx.obj.get("project") or Path.cwd())
     root = services.require_project_root(start)
     value: object = services.load_config(root).model_dump()
@@ -57,7 +63,10 @@ def set_config(
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
 ) -> None:
-    """Set a single, non-secret configuration value."""
+    """Set a single, non-secret configuration value.
+
+    Example: {cli} config set provider.name github
+    """
     start = Path(ctx.obj.get("project") or Path.cwd())
     root = services.require_project_root(start)
     data = services.load_config(root).model_dump()

@@ -41,8 +41,10 @@ uv tool install "git+ssh://git@github.com/bolandeu/html-to-gutenberg.git"
   structured error instead of hanging.
 - **Credentials** live in the OS keychain or env vars
   (`HTML_TO_GUTENBERG_<PROVIDER>_<FIELD>`), never in arguments or
-  config. Check `auth status --json`; log in with `auth login`; never ask
-  the user to paste a secret into a command line.
+  config. `auth status --check --json` reports every provider (source,
+  status, expiry, quota — never values; exit 3 if a required one isn't
+  ok); log in with `auth login`; never ask the user to paste a secret into
+  a command line.
 - **Destructive commands** are the ones whose `--help` shows `--dry-run`
   and `--confirm`. Always: run with `--dry-run`, show the user, get
   explicit sign-off, then `--confirm --non-interactive`. Never chain

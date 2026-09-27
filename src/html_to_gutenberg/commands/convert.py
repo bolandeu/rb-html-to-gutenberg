@@ -28,6 +28,8 @@ def convert(
     Prints the markup to stdout, or writes it to --output (overwriting that
     file). Needs no project. --json returns {"blocks": <markup>,
     "output": <path or null>, "warnings": [...]}.
+
+    Example: {cli} convert page.html -o page.blocks.html
     """
     conversion = services.convert_file(input_path, output_path)
     output.emit_success(

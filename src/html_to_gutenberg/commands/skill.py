@@ -43,7 +43,10 @@ def install(
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
 ) -> None:
-    """Copy this CLI's bundled SKILL.md into an AI tool's skill directory."""
+    """Copy this CLI's bundled SKILL.md into an AI tool's skill directory.
+
+    Example: {cli} skill install --tool claude-code
+    """
     from ..core.errors import InvalidArguments
 
     if tool not in _TOOL_TARGETS:
