@@ -1,6 +1,6 @@
 schema = 1
 mode = "fast"
-prefix = "H2"
+prefix = "H2G"
 name = "html-to-gutenberg"
 checks = ["python3 scripts/check_command_docstrings.py"]
 heavy = ["rb-release check"]
