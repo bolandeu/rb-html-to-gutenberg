@@ -1,3 +1,7 @@
+"""The provider contract: what a provider declares, how its credentials are checked, and the discovery of the providers
+in this package.
+"""
+
 from __future__ import annotations
 
 import importlib
@@ -5,6 +9,8 @@ import pkgutil
 from dataclasses import dataclass
 from datetime import datetime
 from typing import ClassVar, Literal
+
+from ..core.version import module_exists
 
 # What a provider's own health check can conclude. `missing` and `unchecked`
 # are decided by `auth status` before a check ever runs.
@@ -67,8 +73,16 @@ class Provider:
     target: str | None = None
 
     def credential(self) -> dict[str, str] | None:
-        """This provider's credential, resolved with all of the options above (use it in auth_headers())."""
-        manager = importlib.import_module(f"{__name__.split('.')[0]}.credentials.manager")
+        """This provider's credential, resolved with all of the options above (use it in auth_headers()).
+
+        None in a CLI generated without credentials (include_auth=false): there
+        is no key store to read, so a provider there declares
+        `credential_fields = ()` and never needs one.
+        """
+        manager_module = f"{__name__.split('.')[0]}.credentials.manager"
+        if not module_exists(manager_module):
+            return None
+        manager = importlib.import_module(manager_module)
         return manager.get_credential(
             self.credential_name,
             env_fields=list(self.credential_fields),

@@ -1,15 +1,22 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: v1.2.7
+_commit: v1.27.1
 _src_path: https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git
+antagor_prefix: H2G
 author_name: bolandeu
 cli_name: html-to-gutenberg
 description: Конвертация HTML в WordPress Gutenberg блоки — Python-библиотека и CLI
 dist_name: rb-html-to-gutenberg
 dist_name_legacy: html_to_gutenberg
 include_auth: false
-include_ci: true
+include_contracts: true
+include_db: false
+include_describe: true
+include_http_provider: true
+include_project: true
 include_providers: true
+include_skill: true
+install_homeserver_users: rbtools
+install_mac: true
 package_name: html_to_gutenberg
-private_deps: false
 project_name: html-to-gutenberg
 repository_url: https://homeserver.tailee01ab.ts.net:3000/bolandeu/html-to-gutenberg

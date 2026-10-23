@@ -28,11 +28,11 @@ report = HtmlToGutenberg().convert_report(html)  # report.blocks, report.warning
 ```
 
 In another uv project, depend on it editable (edits here are picked up
-immediately) or from GitHub:
+immediately) or from Gitea:
 
 ```bash
-uv add --editable /Users/bolandau/Projects/tools/html-to-gutenberg
-uv add "rb-html-to-gutenberg @ git+https://github.com/bolandeu/html-to-gutenberg.git@vX.Y.Z"
+uv add --editable /Users/bolandau/Work/tools/html-to-gutenberg
+uv add "rb-html-to-gutenberg @ git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/html-to-gutenberg.git@vX.Y.Z"
 ```
 
 The distribution is `rb-html-to-gutenberg` (standard §10); the import package
@@ -43,33 +43,13 @@ Pin a tag (`@vX.Y.Z`) rather than a branch.
 
 ```bash
 uv sync
-uv run html_to_gutenberg --help
-uv run scripts/release.py --check   # the full gate (what releases and CI run)
-uv sync --reinstall-package rb-html-to-gutenberg  # once, if this venv predates the rename (§10)
-scripts/install_hooks.sh  # once per clone: git uses the versioned hooks in .githooks/
+uv run html-to-gutenberg --help
 uv run pytest --snapshot-update  # after changing a command's help; review tests/snapshots/help/
 ```
 
-`pytest` fails below the coverage floor in `pyproject.toml`; `ruff` includes
-the security (`S`) rules; the gate also scans `uv.lock` for known
-vulnerabilities when `osv-scanner` is installed (`brew install osv-scanner`),
-and says it skipped the scan otherwise. CI is optional and only repeats
-`release.py --check`.
-
-## Release
-
-The version is the git tag (`vX.Y.Z`) — `pyproject.toml` has no `version =`.
-Each change adds a changelog fragment instead of editing `CHANGELOG.md`:
-
-```bash
-uv run towncrier create +<slug>.<type>.md -c "What changed, for a human reader."
-uv run scripts/release.py patch   # or minor / major (SemVer; at 0.x: patch = fix/feature, minor = breaking)
-git push --follow-tags
-```
-
-`release.py` refuses off `main`, on a dirty tree or behind the remote, runs
-the full gate (the same as `--check`; any failing step aborts the release), assembles `CHANGELOG.md` from `changelog.d/`, commits
-`Release vX.Y.Z` and tags it; pushing is left to you.
+The gate is the `rb-release check` step of `.gitea/workflows/ci.yml`: run that command before a commit. The tasks,
+the changelog and the release are Antagor's (`antagor board`, `antagor publish`); the version is the git tag
+(`vX.Y.Z`), `pyproject.toml` has no `version =`.
 
 ## Install
 
@@ -80,33 +60,23 @@ effect in the global command without reinstalling:
 uv tool install --editable .
 ```
 
-**On any other machine (any OS), once this repo is pushed to GitHub — no
-PyPI publish needed:**
+**From the Gitea registry** (the package is released there):
 
 ```bash
 uv tool uninstall html_to_gutenberg   # once: the old distribution name (before v0.4.0)
-uv tool install "rb-html-to-gutenberg @ git+https://github.com/bolandeu/html-to-gutenberg.git@vX.Y.Z"
+uv tool install rb-html-to-gutenberg --index https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/simple
 ```
 
-`vX.Y.Z` is a release tag cut by `scripts/release.py`. Uninstall the old
+**From the git tag** (any machine, any OS):
+
+```bash
+uv tool install "rb-html-to-gutenberg @ git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/html-to-gutenberg.git@vX.Y.Z"
+```
+
+`vX.Y.Z` is a release tag cut by `antagor publish`. Uninstall the old
 `html_to_gutenberg` tool first, otherwise two tools fight over the same command. This is also how an AI agent
 bootstraps this CLI on a fresh machine/sandbox where it isn't installed
 yet — see `src/html_to_gutenberg/data/SKILL.md`.
-
-**Private repo?** The command above is unchanged — `uv` runs git under the
-hood, so it authenticates the same way `git clone` does. On a machine
-where the install is refused with an auth error, do one of these once:
-
-```bash
-gh auth login          # interactive login also sets up git's credential helper
-gh auth setup-git      # only needed if gh was logged in with --with-token / in CI
-```
-
-or use the SSH form instead of HTTPS:
-
-```bash
-uv tool install "rb-html-to-gutenberg @ git+ssh://git@github.com/bolandeu/html-to-gutenberg.git@vX.Y.Z"
-```
 
 **Update** an installed copy to the latest commit:
 
@@ -118,9 +88,7 @@ After install, the command `html_to_gutenberg` is available globally, on
 macOS, Linux and Windows alike (see `architecture.md` in the cli-generator
 plugin for why: no shelling out, no hardcoded POSIX paths).
 
-To pick up later architecture changes from the `cli-generator` template
-itself, run `copier update` in this repo (requires this repo and the
-template to both be git repos; see the `cli-generator` plugin's README).
+To pick up later template changes, see `existing-package.md` in the `cli-generator` plugin (`copier update`).
 
 ## Architecture
 

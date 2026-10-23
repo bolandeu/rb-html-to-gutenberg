@@ -12,21 +12,18 @@ Every concrete provider implements `health_check()` — the hook behind
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+import importlib
+from typing import Any
 
 from .base import Health, Provider, Quota, all_providers
 
-if TYPE_CHECKING:
-    from .http import HttpProvider
-
-__all__ = ["Health", "HttpProvider", "Provider", "Quota", "all_providers"]
+__all__ = ["Health", "Provider", "Quota", "all_providers"]
 
 
 def __getattr__(name: str) -> Any:
-    # HttpProvider (and so httpx) is loaded only by code that uses it: a CLI
-    # whose providers aren't HTTP can drop the httpx dependency.
+    # `providers.HttpProvider` loads http.py (and httpx) only when used; a CLI
+    # generated with include_http_provider=false has no http.py at all. HTTP
+    # providers import it directly: `from .http import HttpProvider`.
     if name == "HttpProvider":
-        from .http import HttpProvider
-
-        return HttpProvider
+        return importlib.import_module(f"{__name__}.http").HttpProvider
     raise AttributeError(name)
