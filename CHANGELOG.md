@@ -5,6 +5,24 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.5.0 — 2026-10-23
+
+### Main
+
+- antagor init: project html-to-gutenberg (H2G)
+- antagor init: project html-to-gutenberg (H2)
+- antagor init: project html-to-gutenberg (H2G)
+- antagor init: project html-to-gutenberg (H2G)
+- Template v1.27.1: update from v1.2.7
+- chore: copier source moved to Gitea
+- chore: пути ~/Projects → ~/Work после переезда
+- chore(hooks): скрипты tools ищутся относительно репозитория (перенос tools не ломает хуки)
+- chore(claude): при старте сессии агент берёт имя в herdr по команде
+- chore(hooks): pre-push сообщает корневому агенту tools о пушнутых тегах
+- docs: инструмент в системе (стандарт §13)
+- docs: каждое заметное изменение выходит релизом
+
+
 ## [0.4.1] - 2026-09-27
 
 ### Fixed
