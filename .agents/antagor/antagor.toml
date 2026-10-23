@@ -1,5 +1,6 @@
 schema = 1
-prefix = "H2G"
+mode = "fast"
+prefix = "H2"
 name = "html-to-gutenberg"
 checks = ["python3 scripts/check_command_docstrings.py"]
 heavy = ["rb-release check"]
@@ -30,3 +31,6 @@ in_review = "In Review"
 publish = "Publishing"
 done = "Done"
 cancelled = "Cancelled"
+
+[daemon]
+enabled = true
