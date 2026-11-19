@@ -3,7 +3,7 @@
   "info": {
     "title": "html-to-gutenberg",
     "version": "<version>",
-    "summary": "Конвертация HTML в WordPress Gutenberg блоки — Python-библиотека и CLI"
+    "summary": "Convert HTML into WordPress Gutenberg blocks."
   },
   "command": {
     "name": "html-to-gutenberg",

@@ -2,8 +2,10 @@
 name = "rb-html-to-gutenberg"
 # Version comes from the git tag vX.Y.Z (uv-dynamic-versioning) — never add `version =`.
 dynamic = ["version"]
-description = "Конвертация HTML в WordPress Gutenberg блоки — Python-библиотека и CLI"
+description = "Convert HTML into WordPress Gutenberg blocks."
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [{ name = "bolandeu" }]
 requires-python = ">=3.14"
 dependencies = [
@@ -47,11 +49,6 @@ cache-keys = [{ file = "pyproject.toml" }, { git = { commit = true, tags = true 
 # same name may live there).
 # [tool.uv.sources]
 # rb-serp = { index = "gitea" }
-[[tool.uv.index]]
-name = "gitea"
-url = "https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/simple"
-explicit = true
-
 [tool.hatch.build.targets.wheel]
 packages = ["src/html_to_gutenberg"]
 

@@ -64,7 +64,6 @@ uv tool install --editable .
 
 ```bash
 uv tool uninstall html_to_gutenberg   # once: the old distribution name (before v0.4.0)
-uv tool install rb-html-to-gutenberg --index https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/simple
 ```
 
 **From the git tag** (any machine, any OS):
