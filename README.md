@@ -31,7 +31,7 @@ In another uv project, depend on it editable (edits here are picked up
 immediately) or from Gitea:
 
 ```bash
-uv add --editable /Users/bolandau/Work/tools/html-to-gutenberg
+uv add --editable /Users/bolandau/Work/tools/rb-html-to-gutenberg
 uv add "rb-html-to-gutenberg @ git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/html-to-gutenberg.git@vX.Y.Z"
 ```
 
@@ -47,7 +47,7 @@ uv run html-to-gutenberg --help
 uv run pytest --snapshot-update  # after changing a command's help; review tests/snapshots/help/
 ```
 
-The gate is the `rb-release check` step of `.gitea/workflows/ci.yml`: run that command before a commit. The tasks,
+The gate is `gate check`, run on this machine before a commit (`.agents/antagor/antagor.toml`).
 the changelog and the release are Antagor's (`antagor board`, `antagor publish`); the version is the git tag
 (`vX.Y.Z`), `pyproject.toml` has no `version =`.
 
