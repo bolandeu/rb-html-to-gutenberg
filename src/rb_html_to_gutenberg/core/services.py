@@ -10,6 +10,7 @@ from pathlib import Path
 import tomli_w
 from packaging.version import Version
 
+from .._distribution import TOOL
 from .converter import Conversion, HtmlToGutenberg
 from .errors import CliTooOld, InvalidArguments, ProjectNotInitialized
 from .models import ProjectConfig
@@ -19,7 +20,6 @@ from .version import installed_version
 # needs template substitution: it just works under whatever package_name
 # the project was generated with.
 _PACKAGE_NAME = __name__.split(".")[0]
-from .._distribution import TOOL
 
 PROJECT_DIR_NAME = f".{TOOL}"
 CONFIG_FILE_NAME = "config.toml"
