@@ -886,7 +886,7 @@
         "value": {
           "tool": "html_to_gutenberg",
           "dist": "rb-html-to-gutenberg",
-          "package": "html_to_gutenberg"
+          "package": "rb_html_to_gutenberg"
         }
       },
       {

@@ -32,8 +32,8 @@ import typer.rich_utils
 from syrupy.extensions.single_file import SingleFileSnapshotExtension, WriteMode
 from typer.testing import CliRunner
 
-from html_to_gutenberg import output
-from html_to_gutenberg.cli import app
+from rb_html_to_gutenberg import output
+from rb_html_to_gutenberg.cli import app
 
 CLI = "html-to-gutenberg"
 SNAPSHOT_DIR = Path(__file__).parent / "snapshots" / "help"

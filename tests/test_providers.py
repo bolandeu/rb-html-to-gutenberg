@@ -6,7 +6,7 @@ import gc
 
 import pytest
 
-from html_to_gutenberg.providers import Health, Provider, all_providers
+from rb_html_to_gutenberg.providers import Health, Provider, all_providers
 
 # --- provider contract: every provider can prove its credential works -------------
 
@@ -30,14 +30,14 @@ def test_all_providers_discovers_package_classes_only() -> None:
     # test drops them (and collects) at the end — later tests see the real set.
     def make_classes() -> tuple[type, type, type]:
         class Found(Provider):
-            __module__ = "html_to_gutenberg.providers.fake"
+            __module__ = "rb_html_to_gutenberg.providers.fake"
             name = "found"
 
             def health_check(self) -> Health:
                 return Health()
 
         class Base(Provider):
-            __module__ = "html_to_gutenberg.providers.fake"
+            __module__ = "rb_html_to_gutenberg.providers.fake"
             abstract = True
 
         class Elsewhere(Provider):  # defined outside providers/: not discovered

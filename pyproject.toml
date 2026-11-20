@@ -20,8 +20,8 @@ dependencies = [
 ]
 
 [project.scripts]
-html_to_gutenberg = "html_to_gutenberg.cli:main"
-html-to-gutenberg = "html_to_gutenberg.cli:main"
+html_to_gutenberg = "rb_html_to_gutenberg.cli:main"
+html-to-gutenberg = "rb_html_to_gutenberg.cli:main"
 
 [project.urls]
 Repository = "https://github.com/bolandeu/html-to-gutenberg"
@@ -64,7 +64,7 @@ exclude = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/html_to_gutenberg"]
+packages = ["src/rb_html_to_gutenberg"]
 
 [tool.hatch.build.targets.wheel.force-include]
 # The installed CLI reads [[tool.rb.external]] from here (core/deps.py).
@@ -110,7 +110,7 @@ mac = true
 [tool.cli-generator]
 # Where scripts/check_command_docstrings.py (called by the project's checks)
 # looks for commands: a glob or a list of globs, relative to the repo root.
-commands = ["src/html_to_gutenberg/commands/*.py"]
+commands = ["src/rb_html_to_gutenberg/commands/*.py"]
 # gate check (the gate): extras to install before ruff/ty/pytest.
 # gate_extras = ["browser"]
 
@@ -124,7 +124,7 @@ addopts = "--cov --cov-report=term-missing:skip-covered"
 filterwarnings = ["ignore:(?s).*Can not relate snapshot:UserWarning"]
 
 [tool.mutmut]
-source_paths = ["src/html_to_gutenberg"]
+source_paths = ["src/rb_html_to_gutenberg"]
 also_copy = ["scripts/", "pyproject.toml"]  # tests read them (test_scripts.py, the distribution checks)
 pytest_add_cli_args = ["--no-cov"]  # fail_under would kill every mutant
 # only_mutate = ["*/core/normalize.py"]  # one module at a time on a big tool

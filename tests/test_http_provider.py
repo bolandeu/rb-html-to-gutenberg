@@ -5,8 +5,8 @@ from __future__ import annotations
 import httpx
 import pytest
 
-from html_to_gutenberg.core.errors import AuthRequired, ProviderError
-from html_to_gutenberg.providers.http import PROBE_TIMEOUT, HttpProvider
+from rb_html_to_gutenberg.core.errors import AuthRequired, ProviderError
+from rb_html_to_gutenberg.providers.http import PROBE_TIMEOUT, HttpProvider
 
 
 class _Provider(HttpProvider):

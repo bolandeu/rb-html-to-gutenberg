@@ -6,9 +6,9 @@ from pathlib import Path
 
 import pytest
 
-from html_to_gutenberg.core import services
-from html_to_gutenberg.core.errors import CliTooOld, ProjectNotInitialized
-from html_to_gutenberg.core.models import ProjectConfig
+from rb_html_to_gutenberg.core import services
+from rb_html_to_gutenberg.core.errors import CliTooOld, ProjectNotInitialized
+from rb_html_to_gutenberg.core.models import ProjectConfig
 
 
 def test_find_project_root_walks_up(tmp_path: Path) -> None:

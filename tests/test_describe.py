@@ -23,8 +23,8 @@ import typer
 from syrupy.extensions.single_file import SingleFileSnapshotExtension, WriteMode
 from typer.testing import CliRunner
 
-from html_to_gutenberg.cli import app
-from html_to_gutenberg.core import errors, opencli
+from rb_html_to_gutenberg.cli import app
+from rb_html_to_gutenberg.core import errors, opencli
 
 CLI = "html-to-gutenberg"
 SCHEMA = json.loads((Path(__file__).parent / "data" / "opencli.schema.json").read_text())

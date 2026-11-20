@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from html_to_gutenberg.core import services
+from rb_html_to_gutenberg.core import services
 
 from .test_cli import invoke, invoke_json
 

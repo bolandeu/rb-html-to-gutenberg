@@ -7,8 +7,8 @@ import subprocess
 
 import pytest
 
-from html_to_gutenberg.core import deps
-from html_to_gutenberg.core.errors import DependencyTooOld
+from rb_html_to_gutenberg.core import deps
+from rb_html_to_gutenberg.core.errors import DependencyTooOld
 
 
 @pytest.fixture

@@ -14,11 +14,11 @@ import typer
 import yaml
 from typer.testing import CliRunner
 
-from html_to_gutenberg import output
-from html_to_gutenberg._distribution import DIST_NAME
-from html_to_gutenberg.cli import app
-from html_to_gutenberg.core import errors
-from html_to_gutenberg.core.errors import InvalidArguments
+from rb_html_to_gutenberg import output
+from rb_html_to_gutenberg._distribution import DIST_NAME
+from rb_html_to_gutenberg.cli import app
+from rb_html_to_gutenberg.core import errors
+from rb_html_to_gutenberg.core.errors import InvalidArguments
 
 runner = CliRunner()
 
@@ -44,7 +44,7 @@ def invoke_json(*args: str, **kwargs) -> tuple[int, dict]:
 
 def test_distribution_name_is_declared_once() -> None:
     """Only _distribution.py assigns DIST_NAME; a merge that re-declares it elsewhere would silently win."""
-    src = Path(__file__).resolve().parents[1] / "src" / "html_to_gutenberg"
+    src = Path(__file__).resolve().parents[1] / "src" / "rb_html_to_gutenberg"
     declaring = sorted(
         str(path.relative_to(src))
         for path in src.rglob("*.py")
@@ -54,7 +54,7 @@ def test_distribution_name_is_declared_once() -> None:
 
 
 def test_version_falls_back_to_legacy_distribution_name(monkeypatch: pytest.MonkeyPatch) -> None:
-    from html_to_gutenberg.core import version
+    from rb_html_to_gutenberg.core import version
 
     installed = version.installed_version()
     monkeypatch.setattr(version, "DIST_NAME", "no-such-distribution-xyz")

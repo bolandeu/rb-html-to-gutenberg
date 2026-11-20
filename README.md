@@ -21,7 +21,7 @@ native blocks.
 **Python library:**
 
 ```python
-from html_to_gutenberg import HtmlToGutenberg
+from rb_html_to_gutenberg import HtmlToGutenberg
 
 blocks = HtmlToGutenberg().convert("<h2>Title</h2><p>Text</p>")
 report = HtmlToGutenberg().convert_report(html)  # report.blocks, report.warnings
@@ -75,7 +75,7 @@ uv tool install "rb-html-to-gutenberg @ git+https://homeserver.tailee01ab.ts.net
 `vX.Y.Z` is a release tag cut by `antagor publish`. Uninstall the old
 `html_to_gutenberg` tool first, otherwise two tools fight over the same command. This is also how an AI agent
 bootstraps this CLI on a fresh machine/sandbox where it isn't installed
-yet — see `src/html_to_gutenberg/data/SKILL.md`.
+yet — see `src/rb_html_to_gutenberg/data/SKILL.md`.
 
 **Update** an installed copy to the latest commit:
 
@@ -93,12 +93,12 @@ To pick up later template changes, see `existing-package.md` in the `cli-generat
 
 This project follows a fixed CLI architecture:
 
-- `src/html_to_gutenberg/commands/` — argument parsing only, no business logic.
-- `src/html_to_gutenberg/core/` — services, models, errors: the real logic.
-- `src/html_to_gutenberg/providers/` — external APIs/integrations.
-- `src/html_to_gutenberg/credentials/` — secrets via the OS keychain (`keyring`)
+- `src/rb_html_to_gutenberg/commands/` — argument parsing only, no business logic.
+- `src/rb_html_to_gutenberg/core/` — services, models, errors: the real logic.
+- `src/rb_html_to_gutenberg/providers/` — external APIs/integrations.
+- `src/rb_html_to_gutenberg/credentials/` — secrets via the OS keychain (`keyring`)
   and environment variables. Secrets never live in `.html_to_gutenberg/config.toml`.
-- `src/html_to_gutenberg/output/` — human (`rich`) and `--json` rendering.
+- `src/rb_html_to_gutenberg/output/` — human (`rich`) and `--json` rendering.
 
 Run `html_to_gutenberg doctor` to check environment/config/auth readiness, and
 `html_to_gutenberg --help` for the full command surface. Every command supports
@@ -110,7 +110,7 @@ A project can require a minimum CLI version in its `.html_to_gutenberg/config.to
 (`[cli] min_version = "..."`); an older install refuses with exit 6 and
 `uv tool upgrade rb-html-to-gutenberg` fixes it.
 
-See `src/html_to_gutenberg/data/SKILL.md` for the agent-facing usage guide
+See `src/rb_html_to_gutenberg/data/SKILL.md` for the agent-facing usage guide
 bundled with this package — install it into an AI tool with
 `html_to_gutenberg skill install`, or get it as plain text with
 `html_to_gutenberg --ai` (works even without file access).

@@ -41,9 +41,9 @@ from packaging.specifiers import InvalidSpecifier, SpecifierSet
 from packaging.version import Version
 from typer.testing import CliRunner
 
-from html_to_gutenberg.cli import app as cli_app
-from html_to_gutenberg.core import opencli
-from html_to_gutenberg.core.version import DEV_VERSION, cli_name, installed_version
+from rb_html_to_gutenberg.cli import app as cli_app
+from rb_html_to_gutenberg.core import opencli
+from rb_html_to_gutenberg.core.version import DEV_VERSION, cli_name, installed_version
 
 CONTRACTS = Path(__file__).parent / "contracts"
 SCHEMA = json.loads((CONTRACTS / "schema.json").read_text())

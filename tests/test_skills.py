@@ -11,9 +11,9 @@ import pytest
 import typer.core
 import typer.main
 
-from html_to_gutenberg.cli import app
-from html_to_gutenberg.core import skills
-from html_to_gutenberg.core.version import cli_name
+from rb_html_to_gutenberg.cli import app
+from rb_html_to_gutenberg.core import skills
+from rb_html_to_gutenberg.core.version import cli_name
 
 from .test_cli import invoke, invoke_json
 
