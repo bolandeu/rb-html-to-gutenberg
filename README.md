@@ -47,7 +47,7 @@ uv run html-to-gutenberg --help
 uv run pytest --snapshot-update  # after changing a command's help; review tests/snapshots/help/
 ```
 
-The gate is `gate check`, run on this machine before a commit (`.agents/antagor/antagor.toml`).
+The gate is `gate check`, run on this machine before a commit.
 the changelog and the release are Antagor's (`antagor board`, `antagor publish`); the version is the git tag
 (`vX.Y.Z`), `pyproject.toml` has no `version =`.
 
