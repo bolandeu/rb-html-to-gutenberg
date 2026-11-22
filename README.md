@@ -32,7 +32,7 @@ immediately) or from Gitea:
 
 ```bash
 uv add --editable /Users/bolandau/Work/tools/rb-html-to-gutenberg
-uv add "rb-html-to-gutenberg @ git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/html-to-gutenberg.git@vX.Y.Z"
+uv add "rb-html-to-gutenberg @ git+https://github.com/bolandeu/rb-html-to-gutenberg.git@vX.Y.Z"
 ```
 
 The distribution is `rb-html-to-gutenberg` (standard §10); the import package
@@ -69,7 +69,7 @@ uv tool uninstall html_to_gutenberg   # once: the old distribution name (before 
 **From the git tag** (any machine, any OS):
 
 ```bash
-uv tool install "rb-html-to-gutenberg @ git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/html-to-gutenberg.git@vX.Y.Z"
+uv tool install "rb-html-to-gutenberg @ git+https://github.com/bolandeu/rb-html-to-gutenberg.git@vX.Y.Z"
 ```
 
 `vX.Y.Z` is a release tag cut by `antagor publish`. Uninstall the old

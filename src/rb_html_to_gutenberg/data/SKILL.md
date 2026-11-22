@@ -14,13 +14,13 @@ prints this document.
 ## Install (if `html-to-gutenberg --version` fails)
 
 ```bash
-uv tool install rb-html-to-gutenberg --index https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/simple
+uv tool install rb-html-to-gutenberg
 ```
 
 From the git tag instead:
 
 ```bash
-uv tool install "rb-html-to-gutenberg @ git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/html-to-gutenberg.git@vX.Y.Z"
+uv tool install "rb-html-to-gutenberg @ git+https://github.com/bolandeu/rb-html-to-gutenberg.git@vX.Y.Z"
 ```
 
 Replace `vX.Y.Z` with the latest release tag (install from a tag, never a
